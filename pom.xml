@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<postgresql.version>42.3.6</postgresql.version>
+		<flyway-core.version>9.0.1</flyway-core.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -51,7 +52,11 @@
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${flyway-core.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
