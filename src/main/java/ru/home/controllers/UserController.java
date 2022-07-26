@@ -16,4 +16,9 @@ public class UserController {
     public String getAuth(Principal principal) {
         return "Authenticated by " + principal.getName();
     }
+
+    @GetMapping(value = "/admin")
+    public String getAdminArea() {
+        return "admin area";
+    }
 }
