@@ -1,5 +1,4 @@
-CREATE TABLE roles (
-	id bigserial NOT NULL,
-	name varchar(255) NULL,
-	CONSTRAINT roles_pkey PRIMARY KEY (id)
+create table roles (
+id bigserial primary key,
+name varchar(255) not null
 );

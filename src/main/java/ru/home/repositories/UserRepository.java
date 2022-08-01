@@ -6,5 +6,5 @@ import ru.home.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findFirstByUsername(String userName);
+    User findFirstByUsername(String username);
 }

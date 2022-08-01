@@ -19,6 +19,11 @@ public class UserController {
 
     @GetMapping(value = "/admin")
     public String getAdminArea() {
-        return "admin area";
+        return "Admin area";
+    }
+
+    @GetMapping(value = "/profile")
+    public String getProfile(Principal principal) {
+        return "Profile for " + principal.getName();
     }
 }
