@@ -10,8 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.servlet.http.HttpServletResponse;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -26,24 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
         http = http.cors().and().csrf().disable();
-
         http = http.formLogin().and().logout().logoutSuccessUrl("/").and();
-        http = http
-            .exceptionHandling()
-            .authenticationEntryPoint(
-                (request, response, ex) -> {
-                    response.sendError(
-                        HttpServletResponse.SC_UNAUTHORIZED,
-                        ex.getMessage()
-                    );
-                }
-            )
-            .and();
         http.authorizeRequests()
             .antMatchers("/").permitAll()
             .antMatchers("/users/**").hasRole("USER")
-            .antMatchers("/admins/**").hasRole("ADMIN")
-            .anyRequest().authenticated();
+            .antMatchers("/admins/**").hasRole("ADMIN");
     }
 
     public PasswordEncoder passwordEncoder() {
