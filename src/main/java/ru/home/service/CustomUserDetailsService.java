@@ -19,8 +19,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     @PostConstruct
     public void init() {
         users = List.of(
-            new User("user", "100", new Role("USER")),
-            new User("admin", "100", new Role("ADMIN"))
+            new User("user", "100", new Role("ROLE_USER")),
+            new User("admin", "100", new Role("ROLE_ADMIN"))
         );
     }
 
