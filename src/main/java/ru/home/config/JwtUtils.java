@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Objects.nonNull;
@@ -36,6 +37,6 @@ public class JwtUtils {
         if (nonNull(claims)) {
             return claims;
         }
-        return null;
+        return (Claims) new HashMap<String, Object>();
     }
 }
