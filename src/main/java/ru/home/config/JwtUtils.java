@@ -1,8 +1,8 @@
 package ru.home.config;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -22,14 +22,16 @@ public class JwtUtils {
             .compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        var claims = getAllClaims(token);
-        var tokenUsername = claims.getSubject();
-        var tokenExpiration = claims.getExpiration();
-        return userDetails.getUsername().equals(tokenUsername);
+    public Boolean validateToken(String token) {
+        Jws<Claims> claims = Jwts.parser().setSigningKey("SECRET").parseClaimsJws(token);
+        return claims.getBody().getExpiration().before(new Date());
     }
 
-    public Claims getAllClaims(String token) {
+    public String getUsernameFromToken(String token) {
+        return getAllClaims(token).getSubject();
+    }
+
+    private Claims getAllClaims(String token) {
         var claims = Jwts.parser()
             .setSigningKey("SECRET")
             .parseClaimsJws(token)
