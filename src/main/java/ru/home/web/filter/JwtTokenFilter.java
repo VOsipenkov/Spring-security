@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.home.config.JwtUtils;
@@ -47,12 +48,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             doFilter(request, response, filterChain);
         }
 
-        var upat = new UsernamePasswordAuthenticationToken(
+        var authentication = new UsernamePasswordAuthenticationToken(
             userDetails.getUsername(),
             userDetails.getPassword(),
             userDetails.getAuthorities());
-
-        SecurityContextHolder.getContext().setAuthentication(upat);
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("User info successfully added in security context");
         doFilter(request, response, filterChain);
     }

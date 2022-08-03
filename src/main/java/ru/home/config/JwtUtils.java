@@ -3,22 +3,30 @@ package ru.home.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import static java.util.Objects.nonNull;
 
 @Component
 public class JwtUtils {
 
-    public String generateToken(Map<String, String> claims, String subject, Long expiration) {
+    public String generateToken(String username, String role) {
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.setSubject(username);
+        claims.put("roles", role);
+        Date now = new Date();
+
         return Jwts.builder()
             .setClaims(claims)
-            .setSubject(subject)
-            .setExpiration(new Date(expiration))
+            .setIssuedAt(now)
+            .setSubject(username)
+            .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(1L).toInstant()))
+            .signWith(SignatureAlgorithm.HS256, "SECRET")
             .compact();
     }
 
